@@ -1,0 +1,1102 @@
+/* ============================================================================
+   MODERN UI DESIGN SYSTEM - Improved CSS Structure
+   ============================================================================ */
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1. CSS CUSTOM PROPERTIES & COLOR PALETTE
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Primary Colors */
+  --blue: #1a6fd4;
+  --blue-light: #3b8eea;
+  --blue-dark: #0c4a9b;
+  --sky: #63b3f4;
+  --ice: #d6ecff;
+
+  /* Neutral Colors */
+  --white: #ffffff;
+  --off-white: #f4f9ff;
+  --ink: #0d2a52;
+  --muted: rgba(13, 42, 82, 0.5);
+
+  /* Special Effects */
+  --glass: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(26, 111, 212, 0.2);
+
+  /* Spacing */
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+
+  /* Border Radius */
+  --radius-sm: 16px;
+  --radius-md: 28px;
+  --radius-lg: 60px;
+  --radius-full: 50%;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 1s ease;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2. GLOBAL STYLES & RESETS
+   ───────────────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Cabinet Grotesk", sans-serif;
+  background-color: var(--off-white);
+  color: var(--ink);
+  overflow-x: hidden;
+  cursor: none;
+  line-height: 1.6;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3. CURSOR & INTERACTIVE ELEMENTS
+   ───────────────────────────────────────────────────────────────────────── */
+
+#cursor {
+  position: fixed;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  background-color: var(--blue);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.08s, width var(--transition-base),
+    height var(--transition-base);
+  mix-blend-mode: multiply;
+}
+
+#cursor-ring {
+  position: fixed;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid rgba(26, 111, 212, 0.4);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s, width 0.25s, height 0.25s, opacity 0.2s;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   4. CONFETTI & OVERLAY ELEMENTS
+   ───────────────────────────────────────────────────────────────────────── */
+
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
+#surprise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  background: linear-gradient(160deg, #ffffff 0%, #cfe8ff 40%, #a8d4ff 100%);
+  transition: opacity var(--transition-slow), visibility var(--transition-slow);
+  overflow: hidden;
+}
+
+#surprise-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Decorative Rings */
+.ring-deco {
+  position: absolute;
+  border-radius: var(--radius-full);
+  border: 1.5px solid rgba(26, 111, 212, 0.12);
+  pointer-events: none;
+  animation: ringPulse 4s ease-in-out infinite;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ring-deco:nth-child(1) {
+  width: 400px;
+  height: 400px;
+}
+
+.ring-deco:nth-child(2) {
+  width: 620px;
+  height: 620px;
+  animation-delay: 0.5s;
+}
+
+.ring-deco:nth-child(3) {
+  width: 840px;
+  height: 840px;
+  animation-delay: 1s;
+}
+
+/* Floating Orbs - Surprise Overlay */
+.floating-orb-ov {
+  position: absolute;
+  border-radius: var(--radius-full);
+  filter: blur(80px);
+  pointer-events: none;
+  animation: orbFloat ease-in-out infinite;
+}
+
+.floating-orb-ov:nth-child(4) {
+  width: 300px;
+  height: 300px;
+  background-color: var(--sky);
+  opacity: 0.22;
+  top: -5%;
+  right: 10%;
+  animation-duration: 20s;
+}
+
+.floating-orb-ov:nth-child(5) {
+  width: 220px;
+  height: 220px;
+  background-color: var(--blue);
+  opacity: 0.12;
+  bottom: 10%;
+  left: 5%;
+  animation-duration: 16s;
+  animation-delay: -8s;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   5. SURPRISE OVERLAY CONTENT
+   ───────────────────────────────────────────────────────────────────────── */
+
+.surprise-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--blue);
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.3s both;
+}
+
+.surprise-headline {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(4rem, 14vw, 10rem);
+  font-weight: 700;
+  line-height: 0.9;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.5s both;
+}
+
+.surprise-headline .s1 {
+  display: block;
+  color: var(--ink);
+}
+
+.surprise-headline .s2 {
+  display: block;
+  font-style: italic;
+  color: var(--blue);
+}
+
+.open-btn {
+  position: relative;
+  z-index: 1;
+  padding: 1rem 3.5rem;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--blue);
+  background-color: var(--blue);
+  color: var(--white);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: none;
+  animation: fadeUp 1s ease 0.9s both;
+  transition: background-color var(--transition-fast), box-shadow 0.3s,
+    transform var(--transition-fast);
+}
+
+.open-btn:hover {
+  background-color: var(--blue-dark);
+  box-shadow: 0 10px 30px rgba(26, 111, 212, 0.35);
+  transform: translateY(-2px);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   6. MAIN CONTENT & HERO SECTION
+   ───────────────────────────────────────────────────────────────────────── */
+
+#main-content {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+#main-content.visible {
+  opacity: 1;
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem 5rem;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #ffffff 0%, #d6ecff 50%, #b3d9ff 100%);
+}
+
+/* Hero Grid Pattern */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      rgba(26, 111, 212, 0.06) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(26, 111, 212, 0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%,
+      transparent 70%);
+}
+
+/* Floating Orbs - Hero Section */
+.floating-orb {
+  position: absolute;
+  border-radius: var(--radius-full);
+  filter: blur(80px);
+  pointer-events: none;
+  animation: orbFloat ease-in-out infinite;
+}
+
+.floating-orb:nth-child(1) {
+  width: 380px;
+  height: 380px;
+  background-color: var(--blue-light);
+  opacity: 0.18;
+  top: -8%;
+  left: -5%;
+  animation-duration: 22s;
+}
+
+.floating-orb:nth-child(2) {
+  width: 260px;
+  height: 260px;
+  background-color: var(--sky);
+  opacity: 0.14;
+  top: 55%;
+  right: -5%;
+  animation-duration: 18s;
+  animation-delay: -7s;
+}
+
+.floating-orb:nth-child(3) {
+  width: 200px;
+  height: 200px;
+  background-color: var(--blue);
+  opacity: 0.1;
+  bottom: 10%;
+  left: 20%;
+  animation-duration: 26s;
+  animation-delay: -12s;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   7. HERO CONTENT
+   ───────────────────────────────────────────────────────────────────────── */
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: rgba(26, 111, 212, 0.1);
+  border: 1px solid rgba(26, 111, 212, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 0.35rem 1rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 2rem;
+  animation: fadeDown 0.8s ease 0.3s both;
+}
+
+.tag-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background-color: var(--blue);
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+.hero-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(4rem, 13vw, 10rem);
+  font-weight: 700;
+  line-height: 0.92;
+  margin-bottom: 2rem;
+  animation: fadeUp 1s ease 0.5s both;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title .t1 {
+  display: block;
+  color: var(--ink);
+}
+
+.hero-title .t2 {
+  display: block;
+  font-style: italic;
+  color: var(--blue);
+}
+
+.hero-sub {
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  color: var(--muted);
+  max-width: 440px;
+  line-height: 1.8;
+  font-weight: 300;
+  margin-bottom: 3rem;
+  animation: fadeUp 1s ease 0.7s both;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeUp 1s ease 0.9s both;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   8. BUTTONS
+   ───────────────────────────────────────────────────────────────────────── */
+
+.btn-blue {
+  padding: 0.9rem 2.5rem;
+  border-radius: var(--radius-lg);
+  border: none;
+  background-color: var(--blue);
+  color: var(--white);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: none;
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-base), background-color var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-blue:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(26, 111, 212, 0.35);
+  background-color: var(--blue-dark);
+}
+
+.btn-ghost {
+  padding: 0.9rem 2.5rem;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid rgba(26, 111, 212, 0.35);
+  background-color: rgba(255, 255, 255, 0.7);
+  color: var(--blue);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: none;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast),
+    box-shadow var(--transition-base);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-ghost:hover {
+  border-color: var(--blue);
+  background-color: var(--white);
+  box-shadow: 0 6px 20px rgba(26, 111, 212, 0.15);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   9. POPUP & MODAL STYLES
+   ───────────────────────────────────────────────────────────────────────── */
+
+.popup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(13, 42, 82, 0.5);
+  z-index: 800;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(12px);
+}
+
+.popup-overlay.open {
+  display: flex;
+  animation: fadeIn 0.3s ease;
+}
+
+.popup-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(26, 111, 212, 0.15);
+  border-radius: var(--radius-md);
+  width: 100%;
+  max-width: 560px;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 2.5rem 2rem;
+  position: relative;
+  animation: popUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 30px 80px rgba(13, 42, 82, 0.18);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(26, 111, 212, 0.2) transparent;
+}
+
+.popup-card::-webkit-scrollbar {
+  width: 4px;
+}
+
+.popup-card::-webkit-scrollbar-thumb {
+  background-color: rgba(26, 111, 212, 0.2);
+  border-radius: 4px;
+}
+
+.popup-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  background-color: rgba(26, 111, 212, 0.08);
+  border: 1px solid rgba(26, 111, 212, 0.15);
+  color: var(--blue);
+  font-size: 1rem;
+  cursor: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.popup-close:hover {
+  background-color: rgba(26, 111, 212, 0.15);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   10. CELEBRATION POPUP
+   ───────────────────────────────────────────────────────────────────────── */
+
+.celebrate-popup-inner {
+  text-align: center;
+}
+
+.popup-big-emoji {
+  font-size: 4.5rem;
+  display: block;
+  margin-bottom: 1.2rem;
+  animation: popEmoji 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+}
+
+.popup-headline {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.popup-headline .ph1 {
+  display: block;
+  color: var(--ink);
+}
+
+.popup-headline .ph2 {
+  display: block;
+  font-style: italic;
+  color: var(--blue);
+}
+
+.popup-sub {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.8;
+  max-width: 380px;
+  margin: 0.75rem auto 1.5rem;
+}
+
+.popup-hearts {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.ph {
+  animation: heartPop 1.8s ease-in-out infinite;
+  display: inline-block;
+}
+
+.ph:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.ph:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.ph:nth-child(4) {
+  animation-delay: 0.45s;
+}
+
+.ph:nth-child(5) {
+  animation-delay: 0.6s;
+}
+
+.popup-section-eye {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.popup-section-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 600;
+  color: var(--ink);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+.popup-divider {
+  width: 44px;
+  height: 2px;
+  background: linear-gradient(to right, var(--blue-light), var(--sky));
+  margin: 0.75rem auto 2rem;
+  border-radius: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   11. WISHES POPUP GRID
+   ───────────────────────────────────────────────────────────────────────── */
+
+.wishes-popup-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 480px) {
+  .wishes-popup-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.wish-card {
+  background-color: #f4f9ff;
+  border: 1px solid rgba(26, 111, 212, 0.1);
+  border-radius: var(--radius-sm);
+  padding: 1.5rem 1.4rem;
+  transition: transform var(--transition-base), border-color var(--transition-base),
+    background-color var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.wish-card::after {
+  content: "";
+  position: absolute;
+  top: -28px;
+  right: -28px;
+  width: 90px;
+  height: 90px;
+  border-radius: var(--radius-full);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  filter: blur(28px);
+  background-color: var(--sky);
+}
+
+.wish-card:hover::after {
+  opacity: 0.3;
+}
+
+.wish-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(26, 111, 212, 0.22);
+  background-color: var(--white);
+  box-shadow: 0 8px 25px rgba(26, 111, 212, 0.1);
+}
+
+.wish-icon {
+  font-size: 1.9rem;
+  display: block;
+  margin-bottom: 0.9rem;
+  line-height: 1;
+}
+
+.wish-name {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+
+.wish-body {
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   12. POLAROIDS
+   ───────────────────────────────────────────────────────────────────────── */
+
+.polaroids-popup {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-bottom: 0.5rem;
+}
+
+.polaroid {
+  background-color: var(--white);
+  padding: 0.75rem 0.75rem 2.5rem;
+  width: 130px;
+  box-shadow: 0 8px 25px rgba(13, 42, 82, 0.15);
+  border-radius: 2px;
+  cursor: none;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.4s;
+  border: 1px solid rgba(26, 111, 212, 0.08);
+}
+
+.polaroid:nth-child(1) {
+  transform: rotate(-3.5deg) translateY(5px);
+}
+
+.polaroid:nth-child(2) {
+  transform: rotate(2deg) translateY(-3px);
+}
+
+.polaroid:nth-child(3) {
+  transform: rotate(-1.5deg) translateY(6px);
+}
+
+.polaroid:nth-child(4) {
+  transform: rotate(3.5deg) translateY(-2px);
+}
+
+.polaroid:nth-child(5) {
+  transform: rotate(-2.5deg) translateY(4px);
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.1) translateY(-10px);
+  box-shadow: 0 24px 55px rgba(13, 42, 82, 0.2);
+  z-index: 10;
+}
+
+.polaroid-face {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+}
+
+.polaroid-label {
+  text-align: center;
+  margin-top: 0.75rem;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  color: #7a93b0;
+  font-size: 0.75rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   13. MUSIC BUTTON
+   ───────────────────────────────────────────────────────────────────────── */
+
+#music-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-full);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(26, 111, 212, 0.25);
+  color: var(--blue);
+  font-size: 1.2rem;
+  cursor: none;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-base), transform var(--transition-fast),
+    box-shadow var(--transition-base);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 15px rgba(13, 42, 82, 0.1);
+}
+
+#music-btn:hover {
+  background-color: var(--white);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(26, 111, 212, 0.2);
+}
+
+#music-btn.playing {
+  border-color: var(--blue);
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   14. PARTICLES & EFFECTS
+   ───────────────────────────────────────────────────────────────────────── */
+
+.star-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 200;
+  font-size: 1rem;
+  animation: starDrift 0.9s ease forwards;
+  opacity: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   15. ANIMATIONS & KEYFRAMES
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popUp {
+  from {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes popEmoji {
+  from {
+    transform: scale(0.5) rotate(-15deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes ringPulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes orbFloat {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  33% {
+    transform: translate(25px, -20px);
+  }
+  66% {
+    transform: translate(-15px, 25px);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes heartPop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.28);
+  }
+}
+
+@keyframes starDrift {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) rotate(360deg) scale(0.5);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   16. RESPONSIVE DESIGN
+   ───────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 4rem 1.5rem 3rem;
+  }
+
+  .hero-actions {
+    gap: 0.75rem;
+  }
+
+  .btn-blue,
+  .btn-ghost {
+    padding: 0.8rem 2rem;
+    font-size: 0.9rem;
+  }
+
+  #music-btn {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 45px;
+    height: 45px;
+  }
+}
+
+  .polaroids-popup {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 1rem 0;
+  }
+ 
+  .polaroid {
+    background: #fff;
+    padding: 0.75rem 0.75rem 2.5rem;
+    width: 130px;
+    box-shadow: 0 8px 25px rgba(13, 42, 82, 0.15);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s;
+    border: 1px solid rgba(26, 111, 212, 0.08);
+  }
+ 
+  .polaroid:nth-child(1) { transform: rotate(-3.5deg) translateY(5px); }
+  .polaroid:nth-child(2) { transform: rotate(2deg) translateY(-3px); }
+  .polaroid:nth-child(3) { transform: rotate(-1.5deg) translateY(6px); }
+  .polaroid:nth-child(4) { transform: rotate(3.5deg) translateY(-2px); }
+  .polaroid:nth-child(5) { transform: rotate(-2.5deg) translateY(4px); }
+ 
+  .polaroid:hover {
+    transform: rotate(0deg) scale(1.1) translateY(-10px);
+    box-shadow: 0 24px 55px rgba(13, 42, 82, 0.2);
+    z-index: 10;
+  }
+ 
+  .polaroid-face {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4rem;
+  }
+ 
+  .polaroid-label {
+    text-align: center;
+    margin-top: 0.75rem;
+    font-style: italic;
+    color: #7a93b0;
+    font-size: 0.75rem;
+    font-family: "Cormorant Garamond", Georgia, serif;
+  }
+ 
+  /* ── Lightbox ── */
+  .lb-wrap {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 42, 82, 0.75);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+ 
+  .lb-wrap.open {
+    display: flex;
+  }
+ 
+  .lb-inner {
+    position: relative;
+    background: #fff;
+    padding: 1rem 1rem 3rem;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.35);
+    border-radius: 2px;
+    animation: lbPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+ 
+  .lb-face {
+    width: min(70vw, 340px);
+    aspect-ratio: 1;
+    border-radius: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+  }
+ 
+  .lb-label {
+    text-align: center;
+    margin-top: 0.75rem;
+    font-style: italic;
+    color: #7a93b0;
+    font-size: 1rem;
+    font-family: "Cormorant Garamond", Georgia, serif;
+  }
+ 
+  .lb-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #1a6fd4;
+    border: none;
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+ 
+  .lb-close:hover {
+    background: #0c4a9b;
+  }
+ 
+  .lb-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(26, 111, 212, 0.25);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #1a6fd4;
+    transition: background 0.2s;
+  }
+ 
+  .lb-nav:hover {
+    background: #fff;
+  }
+ 
+  .lb-prev { left: -50px; }
+  .lb-next { right: -50px; }
+ 
+  @keyframes lbPop {
+    from { transform: scale(0.7) rotate(-8deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0deg);  opacity: 1; }
+  }
